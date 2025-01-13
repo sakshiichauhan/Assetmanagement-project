@@ -60,7 +60,7 @@ const MaintenanceRequestForm = () => {
     };
  
     return (
-        <div className="min-h-screen bg-gradient-to-r from-indigo-500 via-purple-400 to-purple-600 flex items-center justify-center">
+        <div className="font-mono min-h-screen bg-gradient-to-r from-indigo-500 via-purple-400 to-purple-600 flex items-center justify-center">
             <form onSubmit={submitHandler} className="w-full sm:w-96 bg-white p-6 rounded-md shadow-lg space-y-4">
                 <h1 className="font-bold text-xl text-center text-gray-800 mb-5">Maintenance Request</h1>
  

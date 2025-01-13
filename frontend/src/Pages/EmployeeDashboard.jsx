@@ -3,11 +3,11 @@ import Sidebar from '@/components/Sidebar';
 import CardView from '@/components/CardView';
 import { Link } from "react-router-dom";
 import {fetchEmployeeByUserId} from "../ApiUtil/api"
-
+ 
 const EmployeeDashboard = () => {
   const [employee, setEmployee] = useState(null);
   const userId = localStorage.getItem('userId'); // Replace with Redux or Context if needed.
-
+ 
   // Fetch employee details on mount
   useEffect(() => {
     const getEmployeeData = async () => {
@@ -18,22 +18,22 @@ const EmployeeDashboard = () => {
         console.error("Failed to fetch employee data:", error);
       }
     };
-
+ 
     if (userId) {
       getEmployeeData();
     }
   }, [userId]);
-
+ 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex min-h-screen font-mono">
       {/* Sidebar */}
       <Sidebar />
-
+ 
       {/* Main Dashboard Content */}
       <div className="flex-1 bg-gray-50 p-8">
         <h1 className="text-3xl font-semibold mb-4">Welcome, {employee?.name || "Employee"}</h1>
         <h2 className="text-lg text-gray-600 mb-8">Department: {employee?.department || "N/A"}</h2>
-
+ 
         {/* Dashboard Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           <Link to="/request-asset">
@@ -58,7 +58,7 @@ const EmployeeDashboard = () => {
             />
           </Link>
         </div>
-
+ 
         {/* Assigned Assets Section */}
         <div className="mt-8">
           <h2 className="text-2xl font-semibold mb-4">Assigned Assets</h2>
@@ -80,5 +80,5 @@ const EmployeeDashboard = () => {
     </div>
   );
 };
-
+ 
 export default EmployeeDashboard;
