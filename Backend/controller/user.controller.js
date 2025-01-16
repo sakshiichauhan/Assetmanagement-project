@@ -47,7 +47,7 @@ export const login = async (req, res) => {
             });
         }
 
-     
+
         let user = await User.findOne({ email });
         if (!user) {
             return res.status(400).json({
@@ -109,9 +109,9 @@ export const logout = async (req, res) => {
 export const getUserDetails = async (req, res) => {
     try {
         const userId = req.params.userId;
-        
+
         const user = await User.findById(userId).select('-password');
-        
+
         if (!user) {
             return res.status(404).json({
                 message: "User not found",
@@ -120,12 +120,12 @@ export const getUserDetails = async (req, res) => {
         }
 
         return res.status(200).json(user);
-        
+
     } catch (error) {
         console.error(error);
-        return res.status(500).json({ 
-            message: "Server error.", 
-            success: false 
+        return res.status(500).json({
+            message: "Server error.",
+            success: false
         });
     }
 };

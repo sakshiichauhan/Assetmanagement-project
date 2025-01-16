@@ -8,8 +8,9 @@ import { setUser } from "../redux/authSlice";
 import axios from "axios";
 import { Button } from "./ui/button";
 import logo_white from "../assets/logo-white.png";
+import {USER_API_END_POINT} from "../utils/constant";
 
-const USER_API_END_POINT = "http://localhost:5000/api"; // Ensure you have the correct endpoint
+ // Ensure you have the correct endpoint
 
 const Navbar = () => {
   const { user } = useSelector((store) => store.auth);

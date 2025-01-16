@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const assetRequestSchema = new mongoose.Schema(
     {
-        employee: { type: mongoose.Schema.Types.ObjectId, ref: "Employee", required: true },
+        employee: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
         requestDate: { type: Date, default: Date.now },
         assetCategory: { type: String, required: true },
         assetDescription: { type: String, required: true },
