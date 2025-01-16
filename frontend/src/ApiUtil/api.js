@@ -11,3 +11,14 @@ export const fetchEmployeeByUserId = async (userId) => {
     throw error;
   }
 };
+
+export const fetchAdminData = async (userId) => {
+  try {
+    const response = await axios.get(`${API_URL}User/user/${userId}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching admin data:', error);
+    throw error;
+  }
+};
+

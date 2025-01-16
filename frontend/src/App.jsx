@@ -12,6 +12,7 @@ import Landing from "./Pages/Landing";
 import LoginPage from "./Pages/LoginPage";
 import SignUpPage from "./Pages/SignupPage";
 import PageNotFound from "./Pages/PageNotFound";
+import Room from "./Pages/Room";
 
 function App() {
   const location = useLocation();
@@ -31,7 +32,7 @@ function App() {
         <Route path="/maintain-asset" element={<MaintenanceRequestForm />} />
         <Route path="/replace-asset" element={<ReplacementForm />} />
         <Route path="/profile" element={<Profile />} />
-
+        <Route path="/room" element={<Room/>}/>
         <Route path="/404" element= {<PageNotFound/>} />
         <Route path="*" element = {<Navigate to="/404"/>} />
       </Routes>

@@ -31,7 +31,7 @@ const EmployeeDashboard = () => {
  
       {/* Main Dashboard Content */}
       <div className="flex-1 bg-gray-50 p-8">
-        <h1 className="text-3xl font-semibold mb-4">Welcome, {employee?.name || "Employee"}</h1>
+        <h1 className="text-3xl font-semibold mb-4">Welcome, {employee?.fullname || "Employee"}</h1>
         <h2 className="text-lg text-gray-600 mb-8">Department: {employee?.department || "N/A"}</h2>
  
         {/* Dashboard Cards */}
@@ -55,6 +55,13 @@ const EmployeeDashboard = () => {
               title="Maintenance Request"
               description="Request maintenance for assigned assets."
               buttonText="Maintain"
+            />
+          </Link>
+          <Link to="/replace-asset">
+            <CardView
+              title="Replacement Asset "
+              description="Replace asset for assigned assets."
+              buttonText="Replace"
             />
           </Link>
         </div>
