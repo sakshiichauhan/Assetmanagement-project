@@ -1,18 +1,20 @@
 import express from "express";
 import {
-  createAsset,
-  getAllAssets,
-  getAssetById,
-  updateAsset,
-  deleteAsset,
+    createAsset,
+    getAllAssets,
+    getAssetById,
+    updateAsset,
+    deleteAsset,
 } from "../controller/asset.controller.js";
 
-const Assetrouter = express.Router();
 
-Assetrouter.post("/createasset", createAsset); 
-Assetrouter.get("/getasset", getAllAssets); 
-Assetrouter.get("/getass/:id", getAssetById); 
-Assetrouter.put("/updateasset/:id", updateAsset); 
-Assetrouter.delete("/deleteasset/:id", deleteAsset); 
+const assetrouter = express.Router();
 
-export default Assetrouter;
+assetrouter.post("/createasset", createAsset); // Admin creates asset
+assetrouter.get("/getasset",  getAllAssets); // Get all assets
+assetrouter.get("getasset/:id", getAssetById); // Get asset by ID
+assetrouter.put("updateasset/:id",  updateAsset); // Update asset
+assetrouter.delete("deleteasset/:id",  deleteAsset); // Delete asset
+
+export default assetrouter;
+

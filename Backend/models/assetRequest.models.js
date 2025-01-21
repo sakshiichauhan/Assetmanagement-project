@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
-
 const assetRequestSchema = new mongoose.Schema(
     {
-        employee: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+        user: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // Employee receiving the request
+        createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // User creating the request
         requestDate: { type: Date, default: Date.now },
         assetCategory: { type: String, required: true },
         assetDescription: { type: String, required: true },
@@ -15,6 +15,4 @@ const assetRequestSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-const AssetRequest = mongoose.models.AssetRequest || mongoose.model("AssetRequest", assetRequestSchema);
-
-export default AssetRequest;
+export default mongoose.models.AssetRequest || mongoose.model('AssetRequest', assetRequestSchema);

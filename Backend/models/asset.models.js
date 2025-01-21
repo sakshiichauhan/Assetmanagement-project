@@ -7,11 +7,11 @@ const assetSchema = new mongoose.Schema(
         model: { type: String, required: true },
         serialNumber: { type: String, required: true, unique: true },
         condition: { type: String, enum: ["new", "used", "refurbished"], required: true },
-        assetType: { type: String,required: true },
-        assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
+        assetType: { type: String, required: true },
         room: { type: String, default: null },
         assignedDate: { type: Date, default: Date.now },
         returnDate: { type: Date, default: null },
+        createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     },
     { timestamps: true }
 );

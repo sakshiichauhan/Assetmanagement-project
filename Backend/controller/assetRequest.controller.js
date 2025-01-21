@@ -1,19 +1,37 @@
-
+import User from "../models/user.js";
 import AssetRequest from "../models/assetRequest.models.js";
 
 export const createAssetRequest = async (req, res) => {
     try {
-        const { employee, assetCategory, assetDescription, priorityLevel, requiredByDate } = req.body;
+        const { userId, assetCategory, assetDescription, specifications, reason, priorityLevel, requiredByDate } = req.body;
 
-        // Validate required fields
-        if (!employee || !assetCategory || !assetDescription || !priorityLevel || !requiredByDate) {
-            return res.status(400).json({ message: "All required fields must be provided." });
+        // Validate user
+        const user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: "User not found." });
         }
 
-        const newRequest = await AssetRequest.create(req.body);
-        res.status(201).json({ message: "Asset request created successfully.", request: newRequest });
+        // Create the asset request
+        const assetRequest = new AssetRequest({
+            user: userId,
+            createdBy: req.userId, // Assuming logged-in user ID is passed in the request
+            assetCategory,
+            assetDescription,
+            specifications,
+            reason,
+            priorityLevel,
+            requiredByDate,
+        });
+
+        await assetRequest.save();
+
+        // Update the user's request count
+        user.requestCount += 1;
+        await user.save();
+
+        res.status(201).json({ message: "Asset request created successfully.", assetRequest });
     } catch (error) {
-        res.status(400).json({ message: "Failed to create asset request.", error: error.message });
+        res.status(500).json({ message: "Failed to create asset request.", error: error.message });
     }
 };
 export const getAllAssetRequests = async (req, res) => {
