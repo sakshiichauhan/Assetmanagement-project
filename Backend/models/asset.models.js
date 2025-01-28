@@ -11,7 +11,8 @@ const assetSchema = new mongoose.Schema(
         room: { type: String, default: null },
         assignedDate: { type: Date, default: Date.now },
         returnDate: { type: Date, default: null },
-        createdBy: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+        assignedTo:[{ type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }],
+        
     },
     { timestamps: true }
 );

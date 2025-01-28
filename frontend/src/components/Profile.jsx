@@ -15,7 +15,6 @@ const Profile = () => {
         <div className="flex justify-between items-center">
           <div>
             <h1 className="font-medium text-2xl text-gray-800">{user?.fullname}</h1>
-            <p className="text-gray-600">{user?.profile?.bio || "No bio available"}</p>
           </div>
           <button
             onClick={() => setOpen(true)}
