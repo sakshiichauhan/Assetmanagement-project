@@ -11,11 +11,11 @@ export const connectDB = async () => {
     console.log(`Connected to MongoDB at url`);
   } catch (error) {
     console.error("Error connecting to the database:", error.message);
-    process.exit(1); // Exit process with failure
+    process.exit(1);
   }
 };
 
-// Optional: Enable mongoose debugging in development mode
+
 if (process.env.NODE_ENV === "development") {
   mongoose.set("debug", true);
 }

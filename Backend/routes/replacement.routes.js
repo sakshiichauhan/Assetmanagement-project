@@ -4,11 +4,12 @@ import {
   getAllAssetReplacements,
   updateAssetReplacement,
 } from "../controller/assetReplacement.controller.js";
+import Authenticated from "../middleware/Authmiddleware.js";
 
 const Replacementrouter = express.Router();
 
-Replacementrouter.post("/createreplace", createAssetReplacement); 
+Replacementrouter.post("/createreplace",Authenticated, createAssetReplacement);
 Replacementrouter.get("/getreplace", getAllAssetReplacements);
-Replacementrouter.put("/updatereplace/:id", updateAssetReplacement); 
+Replacementrouter.put("/updatereplace/:id", updateAssetReplacement);
 
 export default Replacementrouter;

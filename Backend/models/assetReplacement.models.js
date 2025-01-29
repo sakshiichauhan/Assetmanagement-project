@@ -2,37 +2,34 @@ import mongoose from "mongoose";
 
 const assetReplacementSchema = new mongoose.Schema(
   {
-    asset: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Asset",
+    reasonForReplacement: {
+      type: String,
+      required: true, 
+    },
+    requestedAssetDescription: {
+      type: String,
+      required: true, 
+    },
+    requiredSpecifications: {
+      type: String, 
+    },
+    priorityLevel: {
+      type: String,
+      enum: ["Low", "Medium", "High"], 
       required: true,
     },
-    employee: {
+    asset: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    }, // Changed to "User" for consistency
-    reasonForReplacement: { type: String, required: true },
-    replacementDetails: {
-      requestedAssetDescription: { type: String, required: true },
-      requiredSpecifications: { type: String },
-      priorityLevel: {
-        type: String,
-        enum: ["High", "Medium", "Low"],
-        required: true,
-      },
+      ref: "Asset", 
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "User", 
       required: true,
-    }, // Tracks who created the request
+    },
   },
-  { timestamps: true }
+  { timestamps: true } 
 );
 
-const AssetReplacement =
-  mongoose.models.AssetReplacement ||
+export default mongoose.models.AssetReplacement ||
   mongoose.model("AssetReplacement", assetReplacementSchema);
-
-export default AssetReplacement;

@@ -1,14 +1,17 @@
 import express from "express";
 import {
   createAssetMaintenance,
-  getAllAssetMaintenances,
+  getAllAssetMaintenance,
+  getAssetMaintenanceById,
   updateAssetMaintenance,
 } from "../controller/assetMaintain.controller.js";
+import Authenticated from "../middleware/Authmiddleware.js";
 
-const Maintenancesrouter = express.Router();
+const Maintainancerouter = express.Router();
 
-Maintenancesrouter.post("/createmaintain", createAssetMaintenance); 
-Maintenancesrouter.get("/getmaintain", getAllAssetMaintenances); 
-Maintenancesrouter.put("/updatemaintain/:id", updateAssetMaintenance); 
+Maintainancerouter.post("/createmain", Authenticated, createAssetMaintenance);
+Maintainancerouter.get("/getmain", getAllAssetMaintenance);
+Maintainancerouter.get("/getmain/:id", getAssetMaintenanceById);
+Maintainancerouter.put("/updatemain/:id", updateAssetMaintenance);
 
-export default Maintenancesrouter;
+export default Maintainancerouter;
