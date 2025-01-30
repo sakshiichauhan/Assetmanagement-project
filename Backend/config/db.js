@@ -15,7 +15,6 @@ export const connectDB = async () => {
   }
 };
 
-
 if (process.env.NODE_ENV === "development") {
   mongoose.set("debug", true);
 }

@@ -1,18 +1,25 @@
-
 import AssetReplacement from "../models/assetReplacement.models.js";
+import User from "../models/user.js";
 
-
-// Create a new asset replacement request
 export const createAssetReplacement = async (req, res) => {
   try {
-    const { reasonForReplacement, requestedAssetDescription, requiredSpecifications, priorityLevel, asset } = req.body;
-    
+    const {
+      reasonForReplacement,
+      requestedAssetDescription,
+      requiredSpecifications,
+      priorityLevel,
+      asset
+    } = req.body;
+
+    // Ensure the user is authenticated
     if (!req.id) {
-      return res.status(401).json({ message: "Unauthorized: User not authenticated" });
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: User not authenticated" });
     }
 
-
-    const newAssetReplacement = new AssetReplacement({
+    // 1) Create the new replacement document
+    const newAssetReplacement = await AssetReplacement.create({
       reasonForReplacement,
       requestedAssetDescription,
       requiredSpecifications,
@@ -21,10 +28,23 @@ export const createAssetReplacement = async (req, res) => {
       createdBy: req.id,
     });
 
-    await newAssetReplacement.save();
-    res.status(201).json({ message: "Asset replacement request created successfully", newAssetReplacement });
+    // 2) Update the User's assetReplacements array
+    await User.findByIdAndUpdate(
+      req.id, // userId
+      { $push: { assetReplacements: newAssetReplacement._id } },
+      { new: true }
+    );
+
+    // 3) Send response
+    return res.status(201).json({
+      message: "Asset replacement request created successfully",
+      newAssetReplacement,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error creating asset replacement request", error: error.message });
+    return res.status(500).json({
+      message: "Error creating asset replacement request",
+      error: error.message,
+    });
   }
 };
 

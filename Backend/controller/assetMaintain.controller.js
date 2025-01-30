@@ -1,29 +1,46 @@
-import AssetMaintenance from "../models/maintainance.model.js"
-
+import AssetMaintenance from "../models/maintainance.model.js";
+import User from "../models/user.js";
 
 export const createAssetMaintenance = async (req, res) => {
   try {
     const { details, maintenanceType, scheduledDate, asset } = req.body;
 
-   
+    // Ensure the user is authenticated
     if (!req.id) {
-      return res.status(401).json({ message: "Unauthorized: User not authenticated" });
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: User not authenticated" });
     }
 
-    const newAssetMaintenance = new AssetMaintenance({
+    // 1) Create the new maintenance document
+    const newAssetMaintenance = await AssetMaintenance.create({
       details,
       maintenanceType,
       scheduledDate,
       asset,
-      createdBy: req.id, 
+      createdBy: req.id,
     });
 
-    await newAssetMaintenance.save();
-    res.status(201).json({ message: "Asset maintenance request created successfully", newAssetMaintenance });
+    // 2) Update the User's assetMaintenance array
+    await User.findByIdAndUpdate(
+      req.id, // userId
+      { $push: { assetMaintenance: newAssetMaintenance._id } },
+      { new: true } // returns the updated user doc if needed
+    );
+
+    // 3) Send response
+    return res.status(201).json({
+      message: "Asset maintenance request created successfully",
+      newAssetMaintenance,
+    });
   } catch (error) {
-    res.status(500).json({ message: "Error creating asset maintenance request", error: error.message });
+    return res.status(500).json({
+      message: "Error creating asset maintenance request",
+      error: error.message,
+    });
   }
 };
+
 // READ all asset maintenance requests
 export const getAllAssetMaintenance = async (req, res) => {
   try {

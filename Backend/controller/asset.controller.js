@@ -2,12 +2,26 @@ import Asset from "../models/asset.models.js";
 import User from "../models/user.js";
 
 export const createAsset = async (req, res) => {
-    try {
-        const newAsset = await Asset.create(req.body);
-        res.status(201).json(newAsset);
-    } catch (error) {
-        res.status(400).json({ message: "Error creating asset.", error: error.message });
+  try {
+    // 1) Create the asset
+    const newAsset = await Asset.create(req.body);
+
+    // 2) If the asset has assignedTo users, update each of those users
+    if (newAsset.assignedTo && newAsset.assignedTo.length > 0) {
+      await User.updateMany(
+        { _id: { $in: newAsset.assignedTo } },
+        { $push: { assets: newAsset._id } }
+      );
     }
+
+    // 3) Respond
+    return res.status(201).json(newAsset);
+  } catch (error) {
+    return res.status(400).json({
+      message: "Error creating asset.",
+      error: error.message,
+    });
+  }
 };
 
 export const getAllAssets = async (req, res) => {

@@ -20,14 +20,14 @@ const assetMaintenanceSchema = new mongoose.Schema(
       default: "Pending",
     },
     asset: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Asset", 
-        },
-        createdBy: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "User", 
-          required: true,
-        },
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Asset",
+    },
+    createdBy: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
   },
   { timestamps: true }
 );

@@ -40,6 +40,7 @@ const assetRequestSchema = new mongoose.Schema(
       required: true,
     },
   },
+
   { timestamps: true }
 );
 
