@@ -12,21 +12,20 @@ import axios from "axios";
 
 const AssetRequestForm = () => {
   const [input, setInput] = useState({
-    requestDate: "", // New field
+    requestDate: "",
     assetCategory: "",
     assetDescription: "",
     specifications: "",
     reason: "",
     priorityLevel: "",
     requiredByDate: "",
-    status: "", // Could default to "Pending" on the server
+    status: "",
   });
 
   const { loading } = useSelector((store) => store.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // Handle input changes
   const changeEventHandler = (e) => {
     const { name, value } = e.target;
     setInput((prev) => ({
@@ -35,11 +34,9 @@ const AssetRequestForm = () => {
     }));
   };
 
-  // Submit form
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    // Basic validation for required fields
     if (
       !input.assetCategory ||
       !input.assetDescription ||
@@ -49,7 +46,6 @@ const AssetRequestForm = () => {
       return toast.error("Please fill in all required fields.");
     }
 
-    // Check that 'requiredByDate' is not in the past
     if (new Date(input.requiredByDate) < new Date()) {
       return toast.error("The required-by date must be in the future.");
     }
@@ -57,9 +53,7 @@ const AssetRequestForm = () => {
     try {
       dispatch(setLoading(true));
 
-      // Prepare data to match your backend schema
       const requestData = {
-        // If you want the server to set default requestDate, you can omit it. Otherwise:
         requestDate: input.requestDate || undefined,
         assetCategory: input.assetCategory,
         assetDescription: input.assetDescription,
@@ -67,10 +61,9 @@ const AssetRequestForm = () => {
         reason: input.reason,
         priorityLevel: input.priorityLevel,
         requiredByDate: input.requiredByDate,
-        status: input.status, // or omit if the server defaults to "Pending"
+        status: input.status,
       };
 
-      // Send POST request
       await axios.post(
         "http://localhost:3030/api/AssetRequest/createreq",
         requestData
@@ -99,7 +92,6 @@ const AssetRequestForm = () => {
           Asset Request
         </h1>
 
-        {/* Row 1: requestDate & requiredByDate */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="my-4">
             <Label className="text-lg">Request Date</Label>
@@ -124,7 +116,6 @@ const AssetRequestForm = () => {
           </div>
         </div>
 
-        {/* Row 2: assetCategory & assetDescription */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="my-4">
             <Label className="text-lg">Asset Category *</Label>
@@ -150,7 +141,6 @@ const AssetRequestForm = () => {
           </div>
         </div>
 
-        {/* Row 3: specifications & reason */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           <div className="my-4">
             <Label className="text-lg">Specifications</Label>
@@ -176,7 +166,6 @@ const AssetRequestForm = () => {
           </div>
         </div>
 
-        {/* Priority Level (Radio) */}
         <div className="my-4">
           <Label className="text-lg">Priority Level *</Label>
           <RadioGroup className="flex items-center gap-4 my-5">
@@ -222,7 +211,6 @@ const AssetRequestForm = () => {
           </RadioGroup>
         </div>
 
-        {/* Status (Optional) */}
         <div className="my-4">
           <Label className="text-lg">Status</Label>
           <Input
@@ -235,7 +223,6 @@ const AssetRequestForm = () => {
           />
         </div>
 
-        {/* Submit Button */}
         {loading ? (
           <Button
             disabled

@@ -1,39 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import Sidebar from '@/components/Sidebar';
-import CardView from '@/components/CardView';
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import {fetchEmployeeByUserId} from "../ApiUtil/api"
- 
+import Sidebar from "@/components/Sidebar";
+import CardView from "@/components/CardView";
+
 const EmployeeDashboard = () => {
-  const [employee, setEmployee] = useState(null);
-  const userId = localStorage.getItem('userId'); // Replace with Redux or Context if needed.
- 
-  // Fetch employee details on mount
-  useEffect(() => {
-    const getEmployeeData = async () => {
-      try {
-        const data = await fetchEmployeeByUserId(userId);
-        setEmployee(data);
-      } catch (error) {
-        console.error("Failed to fetch employee data:", error);
-      }
-    };
- 
-    if (userId) {
-      getEmployeeData();
-    }
-  }, [userId]);
- 
+  const [loading, setLoading] = useState(false);
+  const { user } = useSelector((store) => store.auth);
+  const dispatch = useDispatch();
+  const [employee, setEmployee] = useState(null); // Employee state
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setInput((prev) => ({ ...prev, [name]: value }));
+  };
+
   return (
     <div className="flex min-h-screen font-mono">
       {/* Sidebar */}
       <Sidebar />
- 
+
       {/* Main Dashboard Content */}
       <div className="flex-1 bg-gray-50 p-8">
-        <h1 className="text-3xl font-semibold mb-4">Welcome, {employee?.fullname || "Employee"}</h1>
-        <h2 className="text-lg text-gray-600 mb-8">Department: {employee?.department || "N/A"}</h2>
- 
+        <h1 className="text-3xl font-semibold mb-4">
+          Welcome, {user?.fullname || "Employee"}
+        </h1>
+        <h2 className="text-lg text-gray-600 mb-8">
+          Department: {user?.personalInfo?.department || "N/A"}
+        </h2>
+
         {/* Dashboard Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           <Link to="/request-asset">
@@ -57,19 +52,14 @@ const EmployeeDashboard = () => {
               buttonText="Maintain"
             />
           </Link>
-          <Link to="/replace-asset">
-            <CardView
-              title="Replacement Asset "
-              description="Replace asset for assigned assets."
-              buttonText="Replace"
-            />
-          </Link>
         </div>
- 
+
         {/* Assigned Assets Section */}
         <div className="mt-8">
           <h2 className="text-2xl font-semibold mb-4">Assigned Assets</h2>
-          {employee?.assets?.length > 0 ? (
+          {loading ? (
+            <p>Loading...</p>
+          ) : employee?.assets?.length > 0 ? (
             <ul className="space-y-4">
               {employee.assets.map((asset) => (
                 <li key={asset._id} className="p-4 bg-white rounded shadow">
@@ -87,5 +77,5 @@ const EmployeeDashboard = () => {
     </div>
   );
 };
- 
+
 export default EmployeeDashboard;

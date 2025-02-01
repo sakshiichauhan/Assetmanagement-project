@@ -124,7 +124,7 @@ export const logout = (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const { fullname, email, phone, address, department, jobTitle } = req.body;
+    const { fullname, email, phone, address, department, jobTitle , employeeId} = req.body;
 
     const userId = req.id;
 
@@ -145,6 +145,7 @@ export const updateProfile = async (req, res) => {
     if (address) user.personalInfo.address = address;
     if (department) user.personalInfo.department = department;
     if (jobTitle) user.personalInfo.jobTitle = jobTitle;
+    if (employeeId) user.personalInfo.employeeId = employeeId;
     await user.save();
 
     // Prepare sanitized response
